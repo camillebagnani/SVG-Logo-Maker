@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+// const generateShapes = require('./lib/generateShapes')
 
 const questions = [
     {
@@ -25,4 +26,13 @@ const questions = [
     },
 ];
 
-inquirer.prompt(questions)
+const init = () => {
+    inquirer.prompt(questions)
+    .then(() => {
+        writeToFile('shape.svg')
+    })
+}
+
+init()
+
+// generateCharacters();
