@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
+const Circle = require('./lib/shapes')
 
 const questions = [
     {
@@ -28,7 +29,7 @@ const questions = [
 const init = () => {
     inquirer.prompt(questions)
     .then(() => {
-        writeToFile('logo.svg')
+        writeToFile('logo.svg', Circle)
     })
 }
 
