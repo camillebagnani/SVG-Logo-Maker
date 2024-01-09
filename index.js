@@ -1,6 +1,7 @@
-const fs = require('fs');
+const {writeFile} = require('fs/promises');
 const inquirer = require('inquirer');
-const Circle = require('./lib/shapes')
+const {Circle, Triangle, Square} = require('./lib/shapes');
+const SVG = require('./lib/svg');
 
 const questions = [
     {
@@ -17,7 +18,7 @@ const questions = [
         type: 'list',
         message: 'Please choose a shape.',
         choices: ['Circle', 'Triangle', 'Square'],
-        name: 'shape',
+        name: 'shapeType',
     },
     {
         type: 'input',
@@ -28,8 +29,20 @@ const questions = [
 
 const init = () => {
     inquirer.prompt(questions)
-    .then(() => {
-        writeToFile('logo.svg', Circle)
+    .then(({characters, textColor, shapeType, shapeColor}) => {
+        let shape;
+        if(shapeType === 'Circle'){
+            shape = new Circle();
+        } else if (shapeType === 'Triangle'){
+            shape = new Triangle();
+        } else {
+            shape = new Square();
+        }
+        shape.setColor(shapeColor);
+        const svg = new SVG();
+        svg.putShape(shape);
+        svg.putText(characters, textColor);
+        return writeFile('logo.svg', svg.render())
     })
 }
 
