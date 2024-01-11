@@ -8,6 +8,9 @@ const questions = [
         type: 'input',
         message: 'Please enter up to three characters.',
         name: 'characters',
+        validate: (characters) =>
+            characters.length <= 3 ||
+            "Please enter 3 or fewer characters.",
     },
     {
         type: 'input',
@@ -42,8 +45,15 @@ const init = () => {
         const svg = new SVG();
         svg.putShape(shape);
         svg.putText(characters, textColor);
-        return writeFile('logo.svg', svg.render())
+        return writeFile('logo.svg', svg.render());
     })
+    .then(() => {
+        console.log("Generated logo.svg");
+    })
+    .catch((error) => {
+        console.log(error);
+        console.log("Oops! Something went wrong.");
+    });
 }
 
 init()
